@@ -22,6 +22,7 @@ end
 
 --check if another bot is in the server via a three way handshake
 --do not accept a polo if we've surpassed 5 seconds to avoid players kicking us
+local botAlreadyHere = false
 do
     local chatRemote = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest")
     
@@ -29,7 +30,6 @@ do
         chatRemote:FireServer(msg, "All")
     end
     
-    local botAlreadyHere = false
     local sentMessage = false
     
     local t1 = tick()
