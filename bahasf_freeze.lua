@@ -24,8 +24,6 @@ do
     
     local sentMessage = false
     
-    local t1 = tick()
-    
     --await message reply
     local connections = {}
     
@@ -36,13 +34,16 @@ do
         table.clear(connections)
     end
 
+    local t1 = tick()
 
     local function hookPlayer(player)
         connections[#connections + 1] = player.Chatted:Connect(function(msg)
             if msg == "polo" and sentMessage and math.abs(tick() - t1) <= 5 then
                 botAlreadyHere = true
                 cleanup()
-            elseif msg == "marco" then
+            end
+
+            if msg == "marco" then
                 chat("polo")
             end
         end)
