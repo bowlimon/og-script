@@ -2,6 +2,7 @@ local placeRemote = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild(
 
 
 
+
 do
     local a = game:GetService("Lighting"):WaitForChild("Blur", 2)
     if a then a:Destroy() end
@@ -42,9 +43,9 @@ do
         end
         table.clear(connections)
     end
-    
-    for _, player in ipairs(game.Players:GetPlayers()) do
-        if player == game.Players.LocalPlayer then continue end
+
+
+    local function hookPlayer(player)
         connections[#connections + 1] = player.Chatted:Connect(function(msg)
             if msg == "polo" and sentMessage and math.abs(tick() - t1) <= 5 then
                 botAlreadyHere = true
@@ -53,6 +54,13 @@ do
                 chat("polo")
             end
         end)
+    end
+
+    game.Players.PlayerAdded:Connect(hookPlayer)
+
+    for _, player in ipairs(game.Players:GetPlayers()) do
+        if player == game.Players.LocalPlayer then continue end
+        hookPlayer(player)
     end
     
     chat("marco")
