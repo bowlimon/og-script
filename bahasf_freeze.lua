@@ -144,5 +144,5 @@ while true do
         )
     end)
     
-    task.wait(0.3)
+    task.wait(1)
 end
