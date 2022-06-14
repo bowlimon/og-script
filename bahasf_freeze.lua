@@ -1,15 +1,9 @@
+
 local placeRemote = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("StampAsset")
 
-
-
-
-do
-    local a = game:GetService("Lighting"):WaitForChild("Blur", 2)
-    if a then a:Destroy() end
-    game:GetService("StarterGui"):SetCoreGuiEnabled(Enum.CoreGuiType.All, true)
-    local b = game.Players.LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MainScreen", 2)
-    if b then b:Destroy() end
-end
+game:GetService("Lighting"):WaitForChild("Blur"):Destroy()
+game:GetService("StarterGui"):SetCoreGuiEnabled(Enum.CoreGuiType.All, true)
+game.Players.LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MainScreen"):Destroy()
 
 game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("InitialSpawn"):FireServer()
 
@@ -17,8 +11,6 @@ if not game.Players.LocalPlayer.Character then
     game.Players.LocalPlayer.CharacterAdded:Wait()
     task.wait(2)
 end
-
-
 
 --check if another bot is in the server via a three way handshake
 --do not accept a polo if we've surpassed 5 seconds to avoid players kicking us
