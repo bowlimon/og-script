@@ -14,6 +14,8 @@ end
 
 local botAlreadyHere = false
 for _, player in ipairs(game:GetService("Players"):GetPlayers()) do 
+    if player == game.Players.LocalPlayer then continue end
+
     local character = player and player.Character 
     local graphic = character and character:FindFirstChildWhichIsA("ShirtGraphic");
     if graphic and string.match(graphic.Graphic, "%d+") == 1612402 then
