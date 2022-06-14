@@ -12,54 +12,14 @@ if not game.Players.LocalPlayer.Character then
     task.wait(2)
 end
 
---check if another bot is in the server via a three way handshake
---do not accept a polo if we've surpassed 5 seconds to avoid players kicking us
 local botAlreadyHere = false
-do
-    local chatRemote = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest")
-    
-    local function chat(msg)
-        chatRemote:FireServer(msg, "All")
+for _, player in ipairs(game:GetService("Players"):GetPlayers()) do 
+    local character = player and player.Character 
+    local graphic = character and character:FindFirstChildWhichIsA("ShirtGraphic");
+    if graphic and string.match(graphic.Graphic, "%d+") == 1612402 then
+        botAlreadyHere = true
     end
-    
-    local sentMessage = false
-    
-    --await message reply
-    local connections = {}
-    
-    local function cleanup()
-        for _, c in ipairs(connections) do
-            c:Disconnect()
-        end
-        table.clear(connections)
-    end
-
-    local t1 = tick()
-
-    local function hookPlayer(player)
-        connections[#connections + 1] = player.Chatted:Connect(function(msg)
-            if msg == "polo" and sentMessage and math.abs(tick() - t1) <= 5 then
-                botAlreadyHere = true
-                cleanup()
-            end
-
-            if msg == "marco" then
-                chat("polo")
-            end
-        end)
-    end
-
-    game.Players.PlayerAdded:Connect(hookPlayer)
-
-    for _, player in ipairs(game.Players:GetPlayers()) do
-        if player == game.Players.LocalPlayer then continue end
-        hookPlayer(player)
-    end
-    
-    chat("marco")
-    sentMessage = true
 end
-
 
 local platePart = nil
 for _, plate in next, workspace:WaitForChild("Plates"):GetChildren() do
