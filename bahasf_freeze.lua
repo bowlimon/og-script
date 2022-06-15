@@ -1,10 +1,10 @@
 
 local placeRemote = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("StampAsset")
+local RNG = Random.new()
 
 game:GetService("Lighting"):WaitForChild("Blur"):Destroy()
 game:GetService("StarterGui"):SetCoreGuiEnabled(Enum.CoreGuiType.All, true)
 game.Players.LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MainScreen"):Destroy()
-
 game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("InitialSpawn"):FireServer()
 
 if not game.Players.LocalPlayer.Character then
@@ -85,14 +85,12 @@ end)
 
 while true do
     local parts = {}
-    local cache = {}
     
     for _, d in next, game.Players:GetPlayers() do
         if d.Character then
             for _, a in ipairs(d.Character:GetDescendants()) do
                 if not a:IsA("BasePart") then continue end
                 parts[#parts + 1] = a
-                cache[a] = true
             end
         end
     end
@@ -100,12 +98,15 @@ while true do
     task.spawn(function()
         placeRemote:InvokeServer(
             asset.AssetId.Value,
-            platePart.CFrame + Vector3.new(0, platePart.Position.Y - 100, 0),
+            platePart.CFrame + Vector3.new(RNG:NextNumber(-20, 20), platePart.Position.Y - 100, RNG:NextNumber(-20, 20)),
             refPartId,
             parts,
             0
         )
     end)
+
+    table.clear(parts)
+    parts = nil
     
-    task.wait(1)
+    task.wait(4)
 end
